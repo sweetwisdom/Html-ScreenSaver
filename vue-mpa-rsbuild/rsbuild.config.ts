@@ -30,6 +30,7 @@ export default defineConfig(async () => {
     },
     output: {
       assetPrefix: "./",
+      polyfill: 'usage',
     },
     plugins: [
       pluginVue2(),
