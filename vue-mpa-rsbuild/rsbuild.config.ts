@@ -28,9 +28,19 @@ export default defineConfig(async () => {
       host: "localhost",
       open: false,
     },
+    html: {
+      inject: 'body',
+    },
     output: {
       assetPrefix: "./",
       polyfill: 'usage',
+      inlineScripts: true,
+      inlineStyles: true,
+    },
+    performance: {
+      chunkSplit: {
+        strategy: 'all-in-one',
+      },
     },
     plugins: [
       pluginVue2(),
