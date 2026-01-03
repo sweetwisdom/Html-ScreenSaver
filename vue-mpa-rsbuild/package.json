@@ -1,0 +1,30 @@
+{
+  "name": "rsbuild-vue2",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "rsbuild dev --open",
+    "format": "prettier --write .",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "pinia": "2.3.1",
+    "sass": "1.32.0",
+    "vue": "2.7.16"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.6.14",
+    "@rsbuild/plugin-babel": "^1.0.6",
+    "@rsbuild/plugin-node-polyfill": "^1.4.2",
+    "@rsbuild/plugin-sass": "^1.4.0",
+    "@rsbuild/plugin-vue2": "^1.0.4",
+    "@rsbuild/plugin-vue2-jsx": "^1.0.4",
+    "code-inspector-plugin": "^1.3.3",
+    "prettier": "^3.7.3",
+    "@types/node": "^24.7.2",
+    "glob": "^11.0.3",
+    "typescript": "^5.9.3"
+  }
+}
