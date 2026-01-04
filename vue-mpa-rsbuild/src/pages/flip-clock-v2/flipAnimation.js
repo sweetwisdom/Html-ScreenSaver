@@ -14,7 +14,7 @@ function easeOutCubic(t) {
  * 单个翻页动画
  */
 class FlipAnimationItem {
-  constructor(type, position, fromValue, toValue, duration = 800) {
+  constructor(type, position, fromValue, toValue, duration = 1000) {
     this.type = type; // 'hour' | 'minute' | 'second'
     this.position = position; // { x, y, width, height }
     this.fromValue = fromValue;

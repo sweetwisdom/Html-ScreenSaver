@@ -46,7 +46,7 @@ export class CanvasRenderer {
   calculateFontSize(width, height, text) {
     const ctx = this.ctx;
     // 初始字体大小基于高度
-    let fontSize = height * 0.8;
+    let fontSize = height * 0.9;
     
     // 测量文字宽度，确保不超过卡片宽度的80%
     const maxWidth = width * 0.9;
