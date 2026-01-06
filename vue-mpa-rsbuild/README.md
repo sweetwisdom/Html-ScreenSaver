@@ -3,7 +3,7 @@
 
 ## 项目概述
 
-这是一个基于 Rsbuild 的 Vue 多页面应用(MPA)项目。使用 TypeScript 和 pnpm 作为包管理器。
+这是一个基于 Rsbuild 的 Vue2 多页面应用(MPA)项目。使用 TypeScript 和 pnpm 作为包管理器。
 
 ## 核心架构
 

@@ -1,0 +1,271 @@
+# Vue 2 + Rsbuild MPA 项目 Cursor Rules
+
+## 项目技术栈
+
+- **框架**: Vue 2.7.16 (Options API + Composition API 支持)
+- **构建工具**: Rsbuild
+- **语言**: TypeScript
+- **包管理器**: pnpm
+- **样式**: Sass/SCSS
+- **项目类型**: 多页面应用 (MPA)
+
+## 项目结构
+
+### 多页面入口机制
+- 每个页面位于 `src/pages/{pageName}/` 目录下
+- 入口文件必须命名为 `index.ts` 或 `index.tsx`
+- Rsbuild 会自动扫描并生成独立的 HTML 入口
+- 页面结构示例：
+  ```
+  src/pages/
+    ├── {pageName}/
+    │   ├── index.ts      # 入口文件
+    │   ├── App.vue       # 页面组件（可选）
+    │   └── index.css     # 页面样式（可选）
+  ```
+
+### 路径别名
+- `@/*` 映射到 `src/*`
+- 使用示例：`import Component from '@/components/Component.vue'`
+
+## 代码规范
+
+### Vue 2 组件规范
+
+1. **使用 Options API**（推荐用于 Vue 2）
+   ```typescript
+   import Vue from 'vue';
+   
+   export default Vue.extend({
+     name: 'ComponentName',
+     data() {
+       return {
+         // 数据
+       };
+     },
+     methods: {
+       // 方法
+     }
+   });
+   ```
+
+2. **使用 Composition API**（Vue 2.7 支持）
+   ```typescript
+   import { defineComponent, ref } from 'vue';
+   
+   export default defineComponent({
+     setup() {
+       const count = ref(0);
+       return { count };
+     }
+   });
+   ```
+
+3. **组件命名**：使用 PascalCase，文件名与组件名保持一致
+
+4. **Props 定义**：使用 TypeScript 类型定义
+   ```typescript
+   export default Vue.extend({
+     props: {
+       title: {
+         type: String,
+         required: true
+       }
+     }
+   });
+   ```
+
+### TypeScript 规范
+
+1. **严格模式**：项目启用严格模式，注意类型安全
+2. **类型定义**：
+   - 优先使用接口（interface）定义对象类型
+   - 使用类型别名（type）定义联合类型或复杂类型
+   - 避免使用 `any`，使用 `unknown` 或具体类型
+
+3. **函数类型**：
+   ```typescript
+   function padZero(num: number): string {
+     return num.toString().padStart(2, '0');
+   }
+   ```
+
+### 样式规范
+
+1. **使用 Scoped CSS**：组件样式使用 `<style scoped>`
+2. **全局样式**：放在页面入口的 `index.css` 中
+3. **Sass/SCSS**：支持嵌套、变量等特性
+
+### 文件命名规范
+
+- **组件文件**：PascalCase，如 `App.vue`, `UserProfile.vue`
+- **工具文件**：camelCase，如 `utils.ts`, `apiHelper.ts`
+- **常量文件**：UPPER_SNAKE_CASE，如 `API_CONSTANTS.ts`
+- **页面目录**：kebab-case，如 `user-profile/`, `flip-clock/`
+
+## 构建配置
+
+### Rsbuild 配置要点
+
+1. **多页面入口**：自动扫描 `src/pages/**/index.{ts,tsx,js,jsx}`
+2. **资源路径**：`assetPrefix: "./"` 使用相对路径
+3. **代码分割**：`strategy: 'all-in-one'` 单文件打包
+4. **内联资源**：`inlineScripts: true`, `inlineStyles: true` 用于单文件 HTML
+
+### 开发服务器
+
+- 默认地址：`http://localhost:3000`
+- 不自动打开浏览器（可在配置中修改）
+
+## 最佳实践
+
+### 1. 页面创建流程
+
+创建新页面时：
+1. 在 `src/pages/` 下创建新目录（kebab-case）
+2. 创建 `index.ts` 作为入口文件
+3. 可选：创建 `App.vue` 和 `index.css`
+4. Rsbuild 会自动识别并生成 HTML
+
+### 2. 组件组织
+
+- **页面组件**：放在各自页面目录下
+- **公共组件**：放在 `src/components/`（如需要）
+- **工具函数**：放在 `src/utils/`（如需要）
+
+### 3. 状态管理
+
+- 使用 Pinia（已安装）进行全局状态管理
+- 简单页面状态使用组件内部 `data()`
+
+### 4. 类型定义
+
+- Vue 组件类型：`Vue.extend()` 或 `defineComponent()`
+- Props 类型：使用对象形式定义，包含 `type` 和 `required`
+- 事件类型：使用 `$emit` 时定义事件名称和参数类型
+
+### 5. Canvas 和 DOM 操作
+
+- 使用 `ref` 访问 DOM 元素（Vue 2）
+- Canvas 操作在 `mounted` 生命周期中进行
+- 清理工作放在 `beforeDestroy` 生命周期中
+
+## 代码示例
+
+### 页面入口文件（纯 JS/TS）
+
+```typescript
+// src/pages/flipv2/index.ts
+import './index.css';
+
+// 创建 DOM 元素
+const canvas = document.createElement('canvas');
+canvas.id = 'clockCanvas';
+document.body.appendChild(canvas);
+
+// 初始化逻辑
+const ctx = canvas.getContext('2d');
+// ...
+```
+
+### Vue 组件入口文件
+
+```typescript
+// src/pages/index/index.ts
+import Vue from 'vue';
+import App from './App.vue';
+import './index.css';
+
+new Vue({
+  render: h => h(App),
+}).$mount('#root');
+```
+
+### Vue 组件示例
+
+```vue
+<template>
+  <div class="component">
+    <h1>{{ title }}</h1>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'ComponentName',
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      count: 0
+    };
+  },
+  methods: {
+    increment() {
+      this.count++;
+    }
+  }
+});
+</script>
+
+<style scoped>
+.component {
+  /* 样式 */
+}
+</style>
+```
+
+## 注意事项
+
+1. **Vue 2 兼容性**：
+   - 使用 `Vue.extend()` 而不是直接导出对象
+   - `useDefineForClassFields: false` 在 tsconfig.json 中已配置
+
+2. **ES5 兼容性**：
+   - 如果需要兼容旧浏览器，避免使用 ES6+ 特性
+   - 使用 Babel 转译（已配置）
+
+3. **多页面路由**：
+   - 每个页面是独立的入口，没有前端路由
+   - 页面间跳转使用 `<a>` 标签或 `window.location`
+
+4. **资源内联**：
+   - 构建配置已启用内联脚本和样式
+   - 适合屏幕保护程序等单文件场景
+
+5. **类型安全**：
+   - 启用严格模式，注意处理可能为 null 的值
+   - 使用非空断言 `!` 或类型守卫
+
+## 常用命令
+
+```bash
+# 安装依赖
+pnpm install
+
+# 开发服务器
+pnpm dev
+
+# 生产构建
+pnpm build
+
+# 预览构建结果
+pnpm preview
+
+# 代码格式化
+pnpm format
+```
+
+## 调试技巧
+
+1. **开发工具**：使用 Vue DevTools（支持 Vue 2）
+2. **TypeScript 错误**：检查类型定义和导入路径
+3. **构建问题**：检查 `rsbuild.config.ts` 配置
+4. **页面不显示**：确认入口文件命名和路径正确
+
