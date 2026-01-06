@@ -173,7 +173,7 @@ export default Vue.extend({
 <style scoped>
 .box {
   height: 100%;
-  background: #fff;
+  /* background: #fff; */
   color: #333;
   border-radius: 20px;
   
@@ -246,10 +246,11 @@ export default Vue.extend({
 }
 
 .info-card {
-  background: #f5f5f5;
+  /* background: #f5f5f5; */
   border-radius: 12px;
   padding: 20px;
   transition: transform 0.2s, box-shadow 0.2s;
+  background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
 }
 
 .info-card:hover {
@@ -286,7 +287,7 @@ export default Vue.extend({
   font-size: 14px;
   color: #666;
   padding: 8px 0;
-  border-bottom: 1px solid #e0e0e0;
+  /* border-bottom: 1px solid #e0e0e0; */
 }
 
 .card-content li:last-child {
