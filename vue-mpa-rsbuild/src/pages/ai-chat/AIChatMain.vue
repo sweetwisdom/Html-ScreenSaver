@@ -3,7 +3,7 @@
     <div class="ai-chat-main">
       <!-- Logo和标语 -->
       <div class="header">
-        <div class="logo-container">
+        <div class="logo-container" @click="handleLogoClick">
           <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 10 C30 10, 20 30, 20 50 C20 70, 30 90, 50 90 C70 90, 80 70, 80 50 C80 30, 70 10, 50 10 Z"
               fill="url(#gradient1)" />
@@ -107,8 +107,8 @@
           </svg>
           <span>深度思考·自动</span>
         </button>
-        <input type="text" class="chat-input" placeholder="请您描述问题或输入@选择技能" v-model="inputText"
-          @input="updateCharCount" />
+        <input type="text" class="chat-input" placeholder="请您描述问题或输入@选择技能" :value="inputText"
+          @input="handleInput" />
         <span class="char-count">{{ charCount }}/2000</span>
       </div>
 
@@ -122,18 +122,49 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import store from './store';
 
 export default Vue.extend({
   name: 'AIChatMain',
+  inject: {
+    isDesktop: {
+      default: () => () => false,
+    },
+    openModal: {
+      default: () => () => {},
+    },
+  },
   data() {
     return {
-      inputText: '',
       charCount: 0,
     };
   },
+  computed: {
+    inputText() {
+      return store.getState().inputText;
+    },
+  },
+  mounted() {
+    // 监听 store 中的输入文本变化
+    this.$watch(
+      () => store.getState().inputText,
+      (newVal) => {
+        this.charCount = newVal.length;
+      },
+      { immediate: true }
+    );
+  },
   methods: {
-    updateCharCount() {
-      this.charCount = this.inputText.length;
+    handleInput(event: Event) {
+      const target = event.target as HTMLInputElement;
+      store.setInputText(target.value);
+    },
+    handleLogoClick() {
+      // 使用 inject 获取父组件的方法
+      const isDesktop = (this as any).isDesktop();
+      if (!isDesktop) {
+        (this as any).openModal();
+      }
     },
   },
 });
@@ -172,6 +203,22 @@ export default Vue.extend({
   justify-content: center;
   gap: 12px;
   margin-bottom: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.logo-container:hover {
+  opacity: 0.8;
+}
+
+@media (min-width: 1001px) {
+  .logo-container {
+    cursor: default;
+  }
+  
+  .logo-container:hover {
+    opacity: 1;
+  }
 }
 
 .logo-icon {

@@ -13,7 +13,8 @@
         <h2 class="section-title">自助服务</h2>
       </div>
       <div class="service-grid">
-        <div class="service-item" v-for="item in selfServiceItems" :key="item.id">
+        <div class="service-item" v-for="item in selfServiceItems" :key="item.id"
+          @click="handleServiceClick(item.label)">
           <svg class="service-icon" :viewBox="item.iconViewBox" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path v-for="(path, idx) in item.iconPaths" :key="idx" :d="path.d" :fill="path.fill" :stroke="path.stroke"
               :stroke-width="path.strokeWidth" :stroke-linecap="path.strokeLinecap"
@@ -59,9 +60,15 @@
 
 <script>
 import Vue from 'vue';
+import store from './store';
 
 export default Vue.extend({
   name: 'ServicePortal',
+  inject: {
+    isDesktop: {
+      default: () => () => false,
+    },
+  },
   data() {
     return {
       selfServiceItems: [
@@ -204,15 +211,7 @@ export default Vue.extend({
             { d: 'M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z', stroke: '#666', strokeWidth: '2' }
           ]
         },
-        {
-          id: 9,
-          label: '华为云APP',
-          iconViewBox: '0 0 24 24',
-          iconPaths: [
-            { d: 'M5 4H19C20.1046 4 21 4.89543 21 6V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6C3 4.89543 3.89543 4 5 4Z', stroke: '#666', strokeWidth: '2', strokeLinecap: 'round', strokeLinejoin: 'round' },
-            { d: 'M8 2V6M16 2V6', stroke: '#666', strokeWidth: '2', strokeLinecap: 'round' }
-          ]
-        },
+
         {
           id: 10,
           label: '建议反馈',
@@ -224,7 +223,23 @@ export default Vue.extend({
         }
       ]
     };
-  }
+  },
+  methods: {
+    handleServiceClick(label) {
+      // 发送文字到输入框
+      store.appendInputText(label);
+
+      console.log(this.isDesktop(), label);
+      // 如果是弹框模式，发送后关闭
+      const isDesktop = this.isDesktop();
+      if (!isDesktop) {
+        // 延迟关闭，让用户看到文字已输入
+        setTimeout(() => {
+          store.closeModal();
+        }, 300);
+      }
+    },
+  },
 });
 </script>
 
@@ -237,18 +252,22 @@ export default Vue.extend({
   background: #fff;
   color: #333;
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
 }
 
 .service-section {
-  margin-bottom: 40px;
+ 
 }
 
 .section-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  
 }
 
 .section-icon {
@@ -273,7 +292,7 @@ export default Vue.extend({
 }
 
 .quick-entry-grid {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
 }
 
 .service-item {
@@ -310,7 +329,7 @@ export default Vue.extend({
   gap: 8px;
   padding: 20px 0;
   border-top: 1px solid #e0e0e0;
-  margin-top: 40px;
+
 }
 
 .phone-icon {
