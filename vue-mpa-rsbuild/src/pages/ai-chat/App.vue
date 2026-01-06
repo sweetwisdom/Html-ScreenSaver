@@ -35,8 +35,8 @@ export default Vue.extend({
     this.$nextTick(() => {
       const contentEl = this.$refs.contentRef as HTMLElement;
       if (contentEl) {
-        this.layoutHook = useResponsiveLayout(contentEl, 1000);
-        
+        this.layoutHook = useResponsiveLayout(contentEl, 1250);
+
         // 监听布局变化
         this.$watch(
           () => this.layoutHook?.state.isDesktop,
@@ -104,15 +104,10 @@ export default Vue.extend({
 }
 
 .service-portal {
-  width: 460px;
-  min-width: 460px;
+  width: 100%;
+  max-width: 480px;
+
   height: 100%;
   overflow: auto;
-}
-
-@media (max-width: 1000px) {
-  .service-portal {
-    display: none;
-  }
 }
 </style>

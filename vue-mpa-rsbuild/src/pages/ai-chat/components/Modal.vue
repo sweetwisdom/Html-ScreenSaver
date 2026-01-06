@@ -50,61 +50,101 @@ export default Vue.extend({
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 20px;
+  padding: 0;
+}
+
+/* 小屏幕：全屏显示 */
+@media (max-width: 460px) {
+  .modal-overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .modal-container {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .modal-content {
+    max-height: 100vh;
+  }
+}
+
+/* 大屏幕：宽度由内容决定 */
+@media (min-width: 461px) {
+  .modal-overlay {
+    padding: 20px;
+  }
+
+  .modal-container {
+    width: auto;
+    min-width: 460px;
+    max-width: calc(100vw - 40px);
+  }
 }
 
 .modal-container {
   position: relative;
   background: #fff;
-  border-radius: 20px;
-  max-width: 90vw;
-  max-height: 90vh;
+  border-radius: 2px;
+  max-height: calc(100vh - 40px);
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
+  top: 0;
+  right: 0;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  background: transparent;
   border: none;
-  border-radius: 50%;
   cursor: pointer;
   z-index: 10;
-  transition: background 0.2s;
+  transition: background-color 0.2s;
+  color: rgba(0, 0, 0, 0.45);
 }
 
 .modal-close:hover {
-  background: #e0e0e0;
+  background-color: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-close:active {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .modal-close svg {
-  width: 18px;
-  height: 18px;
-  color: #666;
+  width: 12px;
+  height: 12px;
+  color: currentColor;
 }
 
 .modal-content {
-  padding: 20px;
+  padding: 24px 0px;
   overflow-y: auto;
-  max-height: 90vh;
+  flex: 1;
 }
 
-/* 过渡动画 */
+/* 过渡动画 - Ant Design 风格 */
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
 }
 
 .modal-enter,
@@ -114,12 +154,13 @@ export default Vue.extend({
 
 .modal-enter-active .modal-container,
 .modal-leave-active .modal-container {
-  transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86),
+    opacity 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
 }
 
 .modal-enter .modal-container,
 .modal-leave-to .modal-container {
-  transform: scale(0.9);
+  transform: scale(0.8);
   opacity: 0;
 }
 </style>
