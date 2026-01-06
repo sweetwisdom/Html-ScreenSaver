@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+body {
+  color: #fff;
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #f8f8f8;
+
+  padding: 40px 30px;
+  height: 100vh;
+  /* background-image: linear-gradient(to bottom, #020917, #101725); */
+}
