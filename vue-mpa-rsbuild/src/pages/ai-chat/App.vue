@@ -35,7 +35,7 @@ export default Vue.extend({
     this.$nextTick(() => {
       const contentEl = this.$refs.contentRef as HTMLElement;
       if (contentEl) {
-        this.layoutHook = useResponsiveLayout(contentEl, 1250);
+        this.layoutHook = useResponsiveLayout(contentEl, 1100);
 
         // 监听布局变化
         this.$watch(
@@ -105,9 +105,8 @@ export default Vue.extend({
 
 .service-portal {
   width: 100%;
-  max-width: 480px;
-
+  max-width: 460px;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
 }
 </style>

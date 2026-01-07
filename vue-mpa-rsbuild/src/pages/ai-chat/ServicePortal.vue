@@ -271,8 +271,8 @@ export default Vue.extend({
 }
 
 .section-icon {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
 }
 
 .section-title {
@@ -300,7 +300,7 @@ export default Vue.extend({
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 16px;
+  padding: 8px;
   background: #fff;
   border-radius: 8px;
   cursor: pointer;
@@ -313,8 +313,8 @@ export default Vue.extend({
 }
 
 .service-icon {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
 }
 
 .service-label {

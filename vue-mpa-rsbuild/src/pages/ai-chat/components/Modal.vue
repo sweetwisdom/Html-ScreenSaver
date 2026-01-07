@@ -87,7 +87,7 @@ export default Vue.extend({
 
   .modal-container {
     width: auto;
-    min-width: 460px;
+    min-width: 440px;
     max-width: calc(100vw - 40px);
   }
 }
