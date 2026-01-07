@@ -84,7 +84,7 @@ export default {
     
     let renderer = null;
     let animator = null;
-    let animationFrameId = null;
+    let animationTimerId = null;
     let lastTime = Date.now();
     let lastCheckTime = 0;
     
@@ -262,7 +262,8 @@ export default {
       // 渲染当前帧
       render();
       
-      animationFrameId = requestAnimationFrame(animate);
+      // 使用 setTimeout 替代 requestAnimationFrame（ES5 兼容）
+      animationTimerId = setTimeout(animate, 16);
     };
     
     /**
@@ -377,8 +378,8 @@ export default {
     });
     
     onUnmounted(() => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
+      if (animationTimerId) {
+        clearTimeout(animationTimerId);
       }
       window.removeEventListener('resize', handleResize);
     });
