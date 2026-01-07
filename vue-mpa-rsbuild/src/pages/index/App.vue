@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <h1>Rsbuild with Vue</h1>
-    <p>Start building amazing things with Rsbuild.</p>
+    <p>Start building amazing things with Rsbuild.{{url}}</p>
     <p>count is {{ count }}</p>
     <div>
       <button @click="count++">add</button>
@@ -14,16 +14,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-
+const url =process.env.VUE_APP_BASE_API
+console.log('⚠️:[ url ]🎈：', url)
+import Vue from 'vue'
 export default Vue.extend({
   name: 'App',
   data() {
     return {
       count: 0,
-    };
+      url: process.env.VUE_APP_BASE_API,
+    }
   },
-});
+})
 </script>
 
 <style scoped>
